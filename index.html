@@ -105,42 +105,50 @@
         </div>
     </div>
 
-    <script>
-        // Função principal do JavaScript
-        function processarTexto(tipo) {
+     <script>
+        async function processarTexto(tipo) {
             const texto = document.getElementById('inputText').value;
             const outputDiv = document.getElementById('output');
+            const buttons = document.querySelectorAll('button');
 
             if (texto.trim() === '') {
                 outputDiv.innerText = 'Por favor, insira um texto para ser processado.';
                 return;
             }
-            
-            // --- IMPORTANTE ---
-            // Como esta é uma página estática, a "inteligência" é simulada.
-            // Em uma aplicação real, aqui seria feita uma chamada para uma IA.
-            // Por enquanto, vamos apenas dar uma resposta padrão para cada botão.
 
-            let resultado = '';
+            // Desabilita os botões e mostra uma mensagem de "carregando"
+            outputDiv.innerText = '🧠 Processando com a IA, por favor aguarde...';
+            buttons.forEach(button => button.disabled = true);
 
-            if (tipo === 'resumir') {
-                resultado = 'RESUMO DA REUNIÃO:\n\n' +
-                            'Este é um resumo gerado automaticamente. O projeto X foi discutido, o orçamento foi aprovado e os próximos passos foram definidos para a próxima semana.';
-            } else if (tipo === 'acoes') {
-                resultado = 'PONTOS DE AÇÃO:\n\n' +
-                            '- [ ] João: Preparar a apresentação de vendas.\n' +
-                            '- [ ] Maria: Revisar o orçamento do Q3.\n' +
-                            '- [ ] Equipe de Dev: Iniciar o desenvolvimento da feature Y.';
-            } else if (tipo === 'decisoes') {
-                resultado = 'DECISÕES TOMADAS:\n\n' +
-                            '1. O orçamento para o projeto X foi aprovado.\n' +
-                            '2. A data de lançamento do produto foi adiada para 30 de Setembro.\n' +
-                            '3. A contratação de um novo analista foi autorizada.';
+            try {
+                // Chama nosso novo back-end na Vercel
+                const response = await fetch('/api/processar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ textoParaProcessar: texto, tipo: tipo })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Se tudo deu certo, mostra o resultado real da IA
+                    outputDiv.innerText = data.resultado;
+                } else {
+                    // Se o back-end retornou um erro
+                    outputDiv.innerText = `Ocorreu um erro: ${data.error}`;
+                }
+
+            } catch (error) {
+                // Se ocorreu um erro de rede (não conseguiu chamar o back-end)
+                console.error('Erro de fetch:', error);
+                outputDiv.innerText = 'Não foi possível conectar ao servidor. Tente novamente mais tarde.';
+            } finally {
+                // Reabilita os botões, independentemente do resultado
+                buttons.forEach(button => button.disabled = false);
             }
-
-            outputDiv.innerText = resultado;
         }
     </script>
+
 
 </body>
 </html>
