@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processador de Reuniões</title>
+    <style>
+        /* Estilos gerais (CSS) */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Container principal */
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1877f2;
+            margin-bottom: 25px;
+        }
+
+        /* Área de texto */
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 12px;
+            border: 1px solid #dddfe2;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        /* Botões */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        button {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #166fe5;
+        }
+
+        /* Área de resultado */
+        #output {
+            background-color: #f7f7f7;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 100px;
+            text-align: left;
+            white-space: pre-wrap; /* Mantém a formatação do texto */
+            font-family: "Courier New", Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🚀 Processador de Reuniões</h1>
+        
+        <textarea id="inputText" placeholder="Cole aqui o texto da ata ou as notas da sua reunião..."></textarea>
+        
+        <div class="button-group">
+            <button onclick="processarTexto('resumir')">Resumir</button>
+            <button onclick="processarTexto('acoes')">Listar Pontos de Ação</button>
+            <button onclick="processarTexto('decisoes')">Identificar Decisões</button>
+        </div>
+        
+        <h3>Resultado:</h3>
+        <div id="output">
+            Seu resultado aparecerá aqui...
+        </div>
+    </div>
+
+    <script>
+        // Função principal do JavaScript
+        function processarTexto(tipo) {
+            const texto = document.getElementById('inputText').value;
+            const outputDiv = document.getElementById('output');
+
+            if (texto.trim() === '') {
+                outputDiv.innerText = 'Por favor, insira um texto para ser processado.';
+                return;
+            }
+            
+            // --- IMPORTANTE ---
+            // Como esta é uma página estática, a "inteligência" é simulada.
+            // Em uma aplicação real, aqui seria feita uma chamada para uma IA.
+            // Por enquanto, vamos apenas dar uma resposta padrão para cada botão.
+
+            let resultado = '';
+
+            if (tipo === 'resumir') {
+                resultado = 'RESUMO DA REUNIÃO:\n\n' +
+                            'Este é um resumo gerado automaticamente. O projeto X foi discutido, o orçamento foi aprovado e os próximos passos foram definidos para a próxima semana.';
+            } else if (tipo === 'acoes') {
+                resultado = 'PONTOS DE AÇÃO:\n\n' +
+                            '- [ ] João: Preparar a apresentação de vendas.\n' +
+                            '- [ ] Maria: Revisar o orçamento do Q3.\n' +
+                            '- [ ] Equipe de Dev: Iniciar o desenvolvimento da feature Y.';
+            } else if (tipo === 'decisoes') {
+                resultado = 'DECISÕES TOMADAS:\n\n' +
+                            '1. O orçamento para o projeto X foi aprovado.\n' +
+                            '2. A data de lançamento do produto foi adiada para 30 de Setembro.\n' +
+                            '3. A contratação de um novo analista foi autorizada.';
+            }
+
+            outputDiv.innerText = resultado;
+        }
+    </script>
+
+</body>
+</html>
